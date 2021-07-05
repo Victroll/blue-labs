@@ -1,4 +1,6 @@
 <script lang="ts">
+    import "@fortawesome/fontawesome-free/js/all.min"
+
     import { onMount } from "svelte"
     import type { Player } from "../interfaces"
     import MainContent from "../components/MainContent.svelte"
