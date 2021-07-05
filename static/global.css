@@ -1,0 +1,79 @@
+html,
+body,
+main,
+#sapper {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 0.5em 0;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+a {
+    color: inherit;
+}
+
+@media (min-width: 400px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+.file_input {
+    position: relative;
+    display: flex;
+    height: 6rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.file_input > input {
+    width: 100%;
+    height: 5rem;
+    opacity: 0;
+    position: absolute;
+}
+
+.file_input > img {
+    max-width: 64px;
+    max-height: 64px;
+    border-radius: 50%;
+    border: 1px #2b356a solid;
+}
+
+.file_input > svg {
+    width: 64px;
+    height: 64px;
+}
+
+.error {
+    color: red;
+}
+
+.loader_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
