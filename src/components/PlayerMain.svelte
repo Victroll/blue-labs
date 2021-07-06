@@ -6,7 +6,7 @@
     export let last: boolean;
     export let next: () => void;
     export let prev: () => void;
-    export let deletePlayer: () => void;
+    export let deletePlayer: (id: string) => void;
 </script>
 
 <style lang="scss">
@@ -120,7 +120,7 @@
         </div>
     </div>
     <div class="button-section">
-        <button on:click={deletePlayer}><i class="fas fa-trash"></i></button>
+        <button on:click={() => deletePlayer(player.id)}><i class="fas fa-trash"></i></button>
         {#if index > 0}
             <button on:click={prev} class="level"><i class="fas fa-level-up-alt"></i></button>
         {/if}

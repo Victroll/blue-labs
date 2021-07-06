@@ -10,8 +10,33 @@
     let isEditing = false
 
     const deletePlayer = (id: string) => {
-        // TODO: add `DELETE` api request (endpoint: `/players`, accepted payload: player id)
-        throw new Error("Delete request not implemented")
+        fetch("/players", {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({id})})
+            .then(response => {
+                console.log('response: ', response);
+                if (!response.ok) {
+                    alert('An error has occuried.');
+                    throw new Error(response.statusText);
+                }
+            })
+            // Retrieve the players again
+            .then(() => fetch("/players"))
+            .then((response) => {
+                if (response.ok) return response.json()
+                else throw new Error("Could not retrieve players")
+            })
+            .then((data) => {
+                console.log('data: ', data);
+                players = data;
+                // I know, not the best, a toast would be much better but... time :(
+                alert('Success removing the player!');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('An error has occuried.');
+            });
     }
 
     const updatePlayer = (player: Player) => {
@@ -93,7 +118,7 @@
                     index={index} last={index === players.length - 1}
                     next={() => scrollToNext(index)}
                     prev={() => scrollToPrev(index)}
-                    deletePlayer={() => deletePlayer(player.id)}
+                    deletePlayer={deletePlayer}
                 />
             </li>
         {/each}

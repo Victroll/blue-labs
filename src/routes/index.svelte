@@ -10,19 +10,24 @@
 
     onMount(() => {
         // TODO:
-        // - Notify the user of any errors
         // - This part can also be (optionally) optimised to retrieve the players
         //   server-side and prerender the page
         fetch("/players")
             .then((response) => {
                 if (response.ok) return response.json()
-                else throw new Error("Could not retrieve players")
+                else {
+                    alert('An error has occuried.');
+                    throw new Error("Could not retrieve players");
+                }
             })
             .then((data) => {
                 players = data
                 loading = false
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                alert('An error has occuried.');
+                console.error(error);
+            })
     })
 
 </script>
