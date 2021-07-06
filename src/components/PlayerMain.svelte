@@ -10,6 +10,7 @@
 </script>
 
 <style lang="scss">
+    $desktop-min-width: 376px;
     section {
         position: relative;
         /* 100vh - nav height */
@@ -86,6 +87,11 @@
             border: none;
             color: white;
             font-size: x-large;
+            &.level {
+                @media screen and (min-width: $desktop-min-width) {
+                    display: none;
+                }
+            }
         }
     }
 </style>
@@ -116,10 +122,10 @@
     <div class="button-section">
         <button on:click={deletePlayer}><i class="fas fa-trash"></i></button>
         {#if index > 0}
-            <button on:click={prev}><i class="fas fa-level-up-alt"></i></button>
+            <button on:click={prev} class="level"><i class="fas fa-level-up-alt"></i></button>
         {/if}
         {#if !last}
-            <button on:click={next}><i class="fas fa-level-down-alt"></i></button>
+            <button on:click={next} class="level"><i class="fas fa-level-down-alt"></i></button>
         {/if}
         <button><i class="fas fa-edit"></i></button>
     </div>

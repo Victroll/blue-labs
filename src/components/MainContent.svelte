@@ -47,6 +47,7 @@
 </script>
 
 <style lang="scss">
+    $desktop-min-width: 376px;
     ul {
         margin: 0;
         padding: 0;
@@ -68,6 +69,18 @@
         border: none;
         color: white;
         font-size: x-large;
+        cursor: pointer;
+        span {
+            display: none;
+        }
+        @media screen and (min-width: $desktop-min-width) {
+            font-size: xx-large;
+            top: 50vh;
+            right: 5vw;
+            span {
+                display: inline-block;
+            }
+        }
     }
 </style>
 
@@ -87,6 +100,7 @@
     </ul>
     <button id="add-player" on:click={() => isEditing = !isEditing}>
         <i class="fas fa-plus"></i>
+        <span>Add a new player</span>
     </button>
 </div>
 

@@ -1,4 +1,5 @@
 <style lang="scss">
+    $desktop-min-width: 376px;
     .modal-background {
         position: fixed;
         width: 100vw;
@@ -17,6 +18,9 @@
             width: 100%;
             background-color: white;
             border-radius: 12px;
+            @media screen and (min-width: $desktop-min-width) {
+                max-width: 500px;
+            }
         }
     }
 
@@ -40,6 +44,10 @@
             border: none;
             font-size: x-large;
         }
+    }
+
+    button {
+        cursor: pointer;
     }
 </style>
 

@@ -13,13 +13,16 @@
 		box-sizing: border-box;
 		height: 100vh;
     	overflow-y: scroll;
+		overflow-x: hidden;
 		margin-top: calc(2rem + 40px);
 	}
 
 	@media screen and (min-width: $desktop-min-width) {
 		main {
-			margin: 2rem 10rem;
-			padding: 2rem;
+			margin: 0;
+			padding: calc(2rem + 40px);
+			width: 100vw;
+			max-width: 100vw;
 		}
 	}
 </style>
