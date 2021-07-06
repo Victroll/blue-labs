@@ -8,6 +8,7 @@
     export let players: Array<Player> = []
     let selectedPlayer: Player | undefined
     let isEditing = false
+    let isUserLogged = false;
 
     const retrievePlayers = (): Promise<void> => {
         return fetch("/players")
@@ -104,11 +105,11 @@
         justify-content: center;
     }
 
-    #add-player {
+    button {
         position: fixed;
         z-index: 11;
         top: 1rem;
-        right: 0;
+        right: 1rem;
         height: 36px;
         background-color: transparent;
         border: none;
@@ -127,6 +128,10 @@
             }
         }
     }
+
+    #log {
+        right: 5rem;
+    }
 </style>
 
 <div>
@@ -144,6 +149,17 @@
             </li>
         {/each}
     </ul>
+    {#if !isUserLogged}
+        <button id="log">
+            <i class="fas fa-user"></i>
+            <span>Log in</span>
+        </button>
+    {:else}
+        <button id="log">
+            <i class="fas fa-user-times"></i>
+            <span>Log out</span>
+        </button>
+    {/if}
     <button id="add-player" on:click={() => isEditing = !isEditing}>
         <i class="fas fa-plus"></i>
         <span>Add a new player</span>
