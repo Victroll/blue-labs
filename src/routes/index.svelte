@@ -4,6 +4,7 @@
     import { onMount } from "svelte"
     import type { Player } from "../interfaces"
     import MainContent from "../components/MainContent.svelte"
+    import Loader from "../components/Loading.svelte";
 
     let loading = true
     let players: Array<Player> = []
@@ -33,7 +34,7 @@
 </script>
 
 {#if loading}
-    <h2>Loading...</h2>
+    <Loader />
 {:else}
     <MainContent
         players={players}
