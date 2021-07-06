@@ -82,13 +82,14 @@
             position={player.position}
             picture={player.picture}
             score={player.score}
+            goals={player.goals}
             onUpdate={data => editingPlayer = data}
         />
 
         <div class="bottom-section">
             <button on:click={() => {
-                // TODO: implement the "Add player" functionality
-                throw new Error("Missing implementation for Add player")
+                submitPlayer(editingPlayer);
+                onClose();
             }}>
                 <i class="fas fa-upload"></i>
             </button>

@@ -18,7 +18,7 @@ export async function get(req: Request, res: Response): Promise<void> {
  */
 export async function post(req: Request, res: Response): Promise<void> {
     try {
-        const { id, position, name, picture, score, goals } = req.body
+        const { player: {id, position, name, picture, score, goals }} = req.body
         players.push({ id, position, name, picture, score, goals })
         res.end()
     } catch (e) {
@@ -33,7 +33,7 @@ export async function post(req: Request, res: Response): Promise<void> {
  */
 export async function put(req: Request, res: Response): Promise<void> {
     try {
-        const { id, position, name, picture, score, goals } = req.body
+        const { player: {id, position, name, picture, score, goals }} = req.body
         const idx = players.findIndex((player: Player) => player.id === id)
         players[idx] = { id, position, name, picture, score, goals }
         res.end()

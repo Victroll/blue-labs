@@ -9,30 +9,32 @@
     let selectedPlayer: Player | undefined
     let isEditing = false
 
+    const retrievePlayers = (): Promise<void> => {
+        return fetch("/players")
+            .then((response) => {
+                if (response.ok) return response.json()
+                else throw new Error("Could not retrieve players")
+            })
+            .then((data) => {
+                players = data;
+                // I know, not the best, a toast would be much better but... time :(
+                alert('Success!');
+            })
+    };
+
     const deletePlayer = (id: string) => {
         fetch("/players", {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({id})})
+            body: JSON.stringify({ id })})
             .then(response => {
-                console.log('response: ', response);
                 if (!response.ok) {
                     alert('An error has occuried.');
                     throw new Error(response.statusText);
                 }
             })
             // Retrieve the players again
-            .then(() => fetch("/players"))
-            .then((response) => {
-                if (response.ok) return response.json()
-                else throw new Error("Could not retrieve players")
-            })
-            .then((data) => {
-                console.log('data: ', data);
-                players = data;
-                // I know, not the best, a toast would be much better but... time :(
-                alert('Success removing the player!');
-            })
+            .then(() => retrievePlayers())
             .catch(error => {
                 console.error(error);
                 alert('An error has occuried.');
@@ -40,13 +42,31 @@
     }
 
     const updatePlayer = (player: Player) => {
-        // TODO: add `PUT` api request (endpoint: `/players`, accepted payload: player)
-        throw new Error("Put request not implemented")
+        return fetch('/players', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ player })
+        })
+        // Retrieve the players again
+        .then(() => retrievePlayers())
+        .catch(error => {
+            console.error(error);
+            alert('An error has occuried.');
+        });
     }
 
     const addPlayer = (player: Player) => {
-        // TODO: add `POST` api request (endpoint: `/players`, accepted payload: player)
-        throw new Error("Post request not implemented")
+        return fetch('/players', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ player })
+        })
+        // Retrieve the players again
+        .then(() => retrievePlayers())
+        .catch(error => {
+            console.error(error);
+            alert('An error has occuried.');
+        });
     }
 
     const getDefaultPlayer = () => {
@@ -119,6 +139,7 @@
                     next={() => scrollToNext(index)}
                     prev={() => scrollToPrev(index)}
                     deletePlayer={deletePlayer}
+                    editPlayer={() => selectedPlayer = player}
                 />
             </li>
         {/each}

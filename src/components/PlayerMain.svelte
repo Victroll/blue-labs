@@ -7,6 +7,7 @@
     export let next: () => void;
     export let prev: () => void;
     export let deletePlayer: (id: string) => void;
+    export let editPlayer: () => void;
 </script>
 
 <style lang="scss">
@@ -127,6 +128,6 @@
         {#if !last}
             <button on:click={next} class="level"><i class="fas fa-level-down-alt"></i></button>
         {/if}
-        <button><i class="fas fa-edit"></i></button>
+        <button on:click={editPlayer}><i class="fas fa-edit"></i></button>
     </div>
 </section>

@@ -11,9 +11,3 @@ export interface Player extends BasePlayer {
 }
 
 export type Position = "Forward" | "Midfielder" | "Defender" | "Goalkeeper"
-
-export enum MessageType {
-    SUCCESS,
-    WARNING,
-    ERROR
-}
