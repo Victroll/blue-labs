@@ -3,12 +3,14 @@
     import type { Player } from "../interfaces"
     import { toPosition } from "../utils"
     import PlayerEditor from "../components/PlayerEditor.svelte"
+    import LoginForm from '../components/LoginForm.svelte';
     import PlayerMain from "./PlayerMain.svelte";
 
     export let players: Array<Player> = []
     let selectedPlayer: Player | undefined
     let isEditing = false
-    let isUserLogged = false;
+    let showLogin = false;
+    let userToken = null; // Auth token
 
     const retrievePlayers = (): Promise<void> => {
         return fetch("/players")
@@ -24,15 +26,34 @@
     };
 
     const deletePlayer = (id: string) => {
-        fetch("/players", {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id })})
-            .then(response => {
-                if (!response.ok) {
+        if (userToken) {
+            fetch("/players", {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })})
+                .then(response => {
+                    if (!response.ok) {
+                        alert('An error has occuried.');
+                        throw new Error(response.statusText);
+                    }
+                })
+                // Retrieve the players again
+                .then(() => retrievePlayers())
+                .catch(error => {
+                    console.error(error);
                     alert('An error has occuried.');
-                    throw new Error(response.statusText);
-                }
+                });
+        } else {
+            alert("Login to delete a player!");
+        }
+    }
+
+    const updatePlayer = (player: Player) => {
+        if (userToken) {
+            return fetch('/players', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ player })
             })
             // Retrieve the players again
             .then(() => retrievePlayers())
@@ -40,34 +61,32 @@
                 console.error(error);
                 alert('An error has occuried.');
             });
-    }
-
-    const updatePlayer = (player: Player) => {
-        return fetch('/players', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player })
-        })
-        // Retrieve the players again
-        .then(() => retrievePlayers())
-        .catch(error => {
-            console.error(error);
-            alert('An error has occuried.');
-        });
+        } else {
+            alert("Login to delete a player!");
+        }
     }
 
     const addPlayer = (player: Player) => {
-        return fetch('/players', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player })
-        })
-        // Retrieve the players again
-        .then(() => retrievePlayers())
-        .catch(error => {
-            console.error(error);
-            alert('An error has occuried.');
-        });
+        if (userToken) {
+            return fetch('/players', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ player })
+            })
+            // Retrieve the players again
+            .then(() => retrievePlayers())
+            .catch(error => {
+                console.error(error);
+                alert('An error has occuried.');
+            });
+        } else {
+            alert("Login to delete a player!");
+        }
+    }
+
+    const logout = () => {
+        userToken = null;
+        alert("Logged out");
     }
 
     const getDefaultPlayer = () => {
@@ -77,6 +96,11 @@
             score: 0,
             goals: 0,
         }
+    }
+
+    const onCloseLogin = (token: string | null) => {
+        userToken = token;
+        showLogin = false;
     }
 
     const scrollToPrev = (currentIndex: number) => {
@@ -131,6 +155,9 @@
 
     #log {
         right: 5rem;
+        @media screen and (min-width: $desktop-min-width) {
+            top: calc(50vh + 4rem);
+        }
     }
 </style>
 
@@ -149,13 +176,13 @@
             </li>
         {/each}
     </ul>
-    {#if !isUserLogged}
-        <button id="log">
+    {#if !userToken}
+        <button id="log" on:click={() => showLogin = true}>
             <i class="fas fa-user"></i>
             <span>Log in</span>
         </button>
     {:else}
-        <button id="log">
+        <button id="log" on:click={logout}>
             <i class="fas fa-user-times"></i>
             <span>Log out</span>
         </button>
@@ -180,4 +207,8 @@
                                 }}
                   player={selectedPlayer || getDefaultPlayer()}
     />
+{/if}
+
+{#if showLogin}
+    <LoginForm onClose={onCloseLogin} /> 
 {/if}

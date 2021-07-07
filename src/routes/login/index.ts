@@ -13,7 +13,7 @@ export async function post(req: Request, res: Response): Promise<void> {
                 iat: Math.floor(new Date().getTime() / 1000),
                 exp: Math.floor(new Date().getTime() / 1000) + 7 * 24 * 60 * 60 * 1000
             };
-            const token = jwt.encode(payload);
+            const token = jwt.encode(payload, "blue-labs");
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ token }));
         } else {
